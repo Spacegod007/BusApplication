@@ -13,7 +13,7 @@ public class CompanyProgram extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("companyFrame.fxml"));
         Parent root = fxmlLoader.load();
 
-        primaryStage.setTitle("Broker");
+        primaryStage.setTitle("Company");
 
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

@@ -1,12 +1,12 @@
 package local.jordi.busapplication.broker.logic.message.bus;
 
+import local.jordi.busapplication.broker.logic.event.BusReachedStopReceivedEvent;
 import local.jordi.busapplication.broker.logic.event.BusRequestScheduleReceivedEvent;
 import local.jordi.busapplication.broker.logic.message.BrokerRegisterGateway;
 import local.jordi.busapplication.broker.logic.message.IGatewayLog;
 import local.jordi.busapplication.broker.logic.model.BusReference;
 import local.jordi.busapplication.shared.messaging.model.brokerregistration.BusRegistration;
 import local.jordi.busapplication.shared.messaging.model.busschedule.BusReplySchedule;
-import local.jordi.busapplication.shared.messaging.model.busschedule.BusRequestSchedule;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +40,11 @@ public class BusGateway {
             BusSenderGateway busSenderGateway = busGatewayByBusReference.get(busReference);
             busSenderGateway.sendReplySchedule(busReplySchedule);
         }
+    }
+
+    public void subscribeBusReachedStopReceived(BusReachedStopReceivedEvent listener)
+    {
+        busReceiverGateway.subscribeBusReachedStop(listener);
     }
 
     public void subscribeBusRequestScheduleReceived(BusRequestScheduleReceivedEvent listener)

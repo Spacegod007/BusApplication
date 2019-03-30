@@ -10,6 +10,8 @@ import local.jordi.busapplication.shared.messaging.model.busschedule.BusReplySch
 import local.jordi.busapplication.shared.messaging.model.busschedule.BusRequestSchedule;
 import local.jordi.busapplication.shared.messaging.model.busschedule.CompanyReplySchedule;
 import local.jordi.busapplication.shared.messaging.model.busschedule.CompanyRequestSchedule;
+import local.jordi.busapplication.shared.messaging.model.stopreached.BusReachedStop;
+import local.jordi.busapplication.shared.messaging.model.stopreached.CompanyBusReachedStop;
 
 public class MainBrokerGateway implements IGateway, IGatewayLog {
     private EventContainer<BrokerMessageReceived, String> brokerMessageListeners;
@@ -24,8 +26,8 @@ public class MainBrokerGateway implements IGateway, IGatewayLog {
         brokerRegisterGateway = new BrokerRegisterGateway();
 
         busGateway = new BusGateway(brokerRegisterGateway, this);
-        busStopGateway = new BusStopGateway(brokerRegisterGateway, this);
         companyGateway = new CompanyGateway(brokerRegisterGateway, this);
+        busStopGateway = new BusStopGateway(brokerRegisterGateway, this);
 
         initEventListeners();
     }
@@ -37,7 +39,13 @@ public class MainBrokerGateway implements IGateway, IGatewayLog {
 
     private void initEventListeners() {
         busGateway.subscribeBusRequestScheduleReceived(this::busRequestScheduleReceived);
+        busGateway.subscribeBusReachedStopReceived(this::busReachedStopReceived);
         companyGateway.subscribeCompanyReplySchedule(this::companyReplyScheduleReceived);
+    }
+
+    private void busReachedStopReceived(BusReachedStop busReachedStop) {
+        CompanyBusReachedStop companyBusReachedStop = new CompanyBusReachedStop(busReachedStop.getBusNumber(), busReachedStop.getReachedStop(), busReachedStop.getNextStop());
+        companyGateway.sendCompanyBusReachedStop(busReachedStop.getCompany(), companyBusReachedStop);
     }
 
     private void busRequestScheduleReceived(BusRequestSchedule busRequestSchedule) {
@@ -53,7 +61,7 @@ public class MainBrokerGateway implements IGateway, IGatewayLog {
         BusReference busReference = new BusReference(companyReplySchedule.getBusNumber(), companyReplySchedule.getCompany());
         BusReplySchedule busReplySchedule = new BusReplySchedule(companyReplySchedule.getBusSchedule());
 
-        log("COmpanyReplySchedule received, contents: " + companyReplySchedule);
+        log("CompanyReplySchedule received, contents: " + companyReplySchedule);
 
         busGateway.sendBusReplySchedule(busReference, busReplySchedule);
     }

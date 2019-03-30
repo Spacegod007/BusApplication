@@ -15,14 +15,8 @@ public class BusScheduleItemDeserializer extends JsonDeserializer {
     @Override
     public Object deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-
         String busStop = node.get(BusScheduleItem.busStopString).asText();
-
-        //todo test this
-        //Date expectedArrival = new Date(node.get(BusScheduleItem.expectedArrivalString).asLong());
-
-        Long time = Long.parseLong(node.get(BusScheduleItem.expectedArrivalString).asText());
-        Date expectedArrival = new Date(time);
+        Date expectedArrival = new Date(node.get(BusScheduleItem.expectedArrivalString).asLong());
 
         return new BusScheduleItem(busStop, expectedArrival);
     }

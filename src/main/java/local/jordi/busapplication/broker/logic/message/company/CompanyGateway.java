@@ -5,6 +5,7 @@ import local.jordi.busapplication.broker.logic.message.BrokerRegisterGateway;
 import local.jordi.busapplication.broker.logic.message.IGatewayLog;
 import local.jordi.busapplication.shared.messaging.model.brokerregistration.CompanyRegistration;
 import local.jordi.busapplication.shared.messaging.model.busschedule.CompanyRequestSchedule;
+import local.jordi.busapplication.shared.messaging.model.stopreached.CompanyBusReachedStop;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,9 +37,17 @@ public class CompanyGateway {
     }
 
     private void companyRegistrationReceived(CompanyRegistration companyRegistration) {
-        CompanySenderGateway companySenderGateway = new CompanySenderGateway(companyRegistration.getCompanyScheduleRequestListeningQueue(), companyRegistration.getCompanyScheduleRequestListeningQueue());
+        CompanySenderGateway companySenderGateway = new CompanySenderGateway(companyRegistration.getCompanyScheduleRequestListeningQueue(), companyRegistration.getCompanyBusReachedStopListeningQueue());
         companyGatewaysByCompanyName.put(companyRegistration.getCompanyName(), companySenderGateway);
 
         gatewayLog.log("CompanyRegistration received, registered: " + companyRegistration.getCompanyName());
+    }
+
+    public void sendCompanyBusReachedStop(String company, CompanyBusReachedStop companyBusReachedStop) {
+        if (companyGatewaysByCompanyName.containsKey(company))
+        {
+            CompanySenderGateway companySenderGateway = companyGatewaysByCompanyName.get(company);
+            companySenderGateway.sendCompanyBusReachedStop(companyBusReachedStop);
+        }
     }
 }

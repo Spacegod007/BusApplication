@@ -38,8 +38,11 @@ public class Bus
 
     public String busStopReached()
     {
-        int passengersToRemove = ThreadLocalRandom.current().nextInt(0, passengers);
-        removePassengers(passengersToRemove);
+        if (passengers > 0)
+        {
+            int passengersToRemove = ThreadLocalRandom.current().nextInt(0, passengers);
+            removePassengers(passengersToRemove);
+        }
 
         int addPassengers = ThreadLocalRandom.current().nextInt(0, capacity);
         if ((addPassengers + passengers) > capacity)
@@ -112,5 +115,9 @@ public class Bus
         scheduleItems.setAll(items);
 
         return busScheduleItem;
+    }
+
+    public String getNextStop() {
+        return scheduleItems.get(0).getBusStop();
     }
 }

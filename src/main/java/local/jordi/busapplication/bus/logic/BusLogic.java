@@ -38,11 +38,6 @@ public class BusLogic {
     {
         bus = new Bus(company, number, standardCapacity);
         busBrokerGateway.registerBus(number, company);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         busBrokerGateway.requestSchedule(number, company);
     }
 
@@ -51,8 +46,8 @@ public class BusLogic {
     }
 
     public void stopReached() {
-        String busStop = bus.busStopReached();
-        busBrokerGateway.busStopReached(bus.getNumber(), bus.getCompany(), busStop);
+        String reachedStop = bus.busStopReached();
+        busBrokerGateway.busStopReached(bus.getNumber(), bus.getCompany(), reachedStop, bus.getNextStop(), bus.getBusynessLevel());
     }
 
     public void subscribeList(BusReplyScheduleReceivedEvent listener) {

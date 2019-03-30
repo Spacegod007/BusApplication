@@ -9,10 +9,14 @@ import local.jordi.busapplication.shared.messaging.Sender;
 import local.jordi.busapplication.shared.messaging.model.brokerregistration.BusRegistration;
 import local.jordi.busapplication.shared.messaging.model.busschedule.BusReplySchedule;
 import local.jordi.busapplication.shared.messaging.model.busschedule.BusRequestSchedule;
+import local.jordi.busapplication.shared.messaging.model.stopreached.BusReachedStop;
+import local.jordi.busapplication.shared.messaging.serializer.object.BusReachedStopSerializer;
 import local.jordi.busapplication.shared.messaging.serializer.object.BusRegistrationSerializer;
 import local.jordi.busapplication.shared.messaging.serializer.object.BusReplyScheduleSerializer;
+import local.jordi.busapplication.shared.messaging.serializer.objectdeserializer.BusReachedStopDeserializer;
 import local.jordi.busapplication.shared.model.BusSchedule;
 import local.jordi.busapplication.shared.messaging.serializer.object.BusRequestScheduleSerializer;
+import local.jordi.busapplication.shared.model.BusynessLevel;
 
 import java.io.IOException;
 
@@ -83,8 +87,16 @@ public class BusBrokerGateway {
         }
     }
 
-    public void busStopReached(int busNumber, String company, String busStop) {
-        //todo send message to broker, company and stop that a stop has been reached
+    public void busStopReached(int busNumber, String company, String reachedStop, String nextStop, BusynessLevel busynessLevel) {
+        BusReachedStopSerializer busReachedStopSerializer = new BusReachedStopSerializer();
+        BusReachedStop busReachedStop = new BusReachedStop(busNumber, company, reachedStop, nextStop, busynessLevel);
+        try {
+            String serialized = busReachedStopSerializer.serialize(busReachedStop);
+            sender.sendMessage(StaticStrings.BUSSTOP_REACHED_BROKER_QUEUE, serialized);
+        }
+        catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     public void subscribe(ScheduleReceivedEvent listener)

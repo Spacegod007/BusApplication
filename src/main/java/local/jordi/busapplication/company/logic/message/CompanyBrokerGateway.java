@@ -1,6 +1,7 @@
 package local.jordi.busapplication.company.logic.message;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import local.jordi.busapplication.company.logic.event.CompanyBusReachedStopReceivedEvent;
 import local.jordi.busapplication.company.logic.event.CompanyRequestScheduleReceivedEvent;
 import local.jordi.busapplication.shared.StaticStrings;
 import local.jordi.busapplication.shared.event.EventContainer;
@@ -9,6 +10,8 @@ import local.jordi.busapplication.shared.messaging.Sender;
 import local.jordi.busapplication.shared.messaging.model.brokerregistration.CompanyRegistration;
 import local.jordi.busapplication.shared.messaging.model.busschedule.CompanyReplySchedule;
 import local.jordi.busapplication.shared.messaging.model.busschedule.CompanyRequestSchedule;
+import local.jordi.busapplication.shared.messaging.model.stopreached.CompanyBusReachedStop;
+import local.jordi.busapplication.shared.messaging.serializer.object.CompanyBusReachedStopSerializer;
 import local.jordi.busapplication.shared.messaging.serializer.object.CompanyRegistrationSerializer;
 import local.jordi.busapplication.shared.messaging.serializer.object.CompanyReplyScheduleSerializer;
 import local.jordi.busapplication.shared.messaging.serializer.object.CompanyRequestScheduleSerializer;
@@ -18,7 +21,8 @@ import java.io.IOException;
 
 public class CompanyBrokerGateway {
 
-    EventContainer<CompanyRequestScheduleReceivedEvent, CompanyRequestSchedule> companyRequestScheduleListeners;
+    private EventContainer<CompanyRequestScheduleReceivedEvent, CompanyRequestSchedule> companyRequestScheduleListeners;
+    private EventContainer<CompanyBusReachedStopReceivedEvent, CompanyBusReachedStop> companyBusReachedStopListeners;
 
     private Sender sender;
     private Receiver busStopReceiver;
@@ -29,6 +33,7 @@ public class CompanyBrokerGateway {
 
     public CompanyBrokerGateway() {
         companyRequestScheduleListeners = new EventContainer<>();
+        companyBusReachedStopListeners = new EventContainer<>();
         sender = new Sender();
         sender.createQueue(StaticStrings.BROKER_REGISTER_COMPANY_QUEUE);
     }
@@ -58,6 +63,11 @@ public class CompanyBrokerGateway {
         companyRequestScheduleListeners.Subscribe(listener);
     }
 
+    public void SubscribeCompanyBusReachedStop(CompanyBusReachedStopReceivedEvent listener)
+    {
+        companyBusReachedStopListeners.Subscribe(listener);
+    }
+
     public void sendReplySchedule(BusSchedule busSchedule) {
 
         CompanyReplySchedule companyReplySchedule = new CompanyReplySchedule(busSchedule.getCompany(), busSchedule.getBusNumber(), busSchedule);
@@ -74,8 +84,8 @@ public class CompanyBrokerGateway {
     }
 
     private void initReceivers(String companyScheduleRequestListeningQueue, String companyBusReachedStopListeningQueue) {
-        busStopReceiver = new Receiver(companyBusReachedStopListeningQueue, this::busReachedStopReceived);
         scheduleRequestReceiver = new Receiver(companyScheduleRequestListeningQueue, this::scheduleRequestReceived);
+        busStopReceiver = new Receiver(companyBusReachedStopListeningQueue, this::busReachedStopReceived);
     }
 
     private void scheduleRequestReceived(String serialized) {
@@ -91,7 +101,14 @@ public class CompanyBrokerGateway {
     }
 
     private void busReachedStopReceived(String serialized) {
-
+        CompanyBusReachedStopSerializer companyBusReachedStopSerializer = new CompanyBusReachedStopSerializer();
+        try {
+            CompanyBusReachedStop companyBusReachedStop = companyBusReachedStopSerializer.deserialize(serialized);
+            companyBusReachedStopListeners.Fire(companyBusReachedStop);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String generateCompanyBusReachedStopListeningQueue(String companyName) {
