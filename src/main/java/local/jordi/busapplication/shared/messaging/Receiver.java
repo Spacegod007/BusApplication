@@ -36,7 +36,7 @@ public class Receiver {
 
             DeliverCallback deliverCallback = this::handleDeliverCallback;
 
-            channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {});
+            channel.basicConsume(queueName, false, deliverCallback, consumerTag -> {});
         }
         catch (TimeoutException | IOException e) {
             e.printStackTrace();
