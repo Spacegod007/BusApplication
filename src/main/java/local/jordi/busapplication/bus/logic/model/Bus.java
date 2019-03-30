@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import local.jordi.busapplication.shared.model.BusSchedule;
 import local.jordi.busapplication.shared.model.BusScheduleItem;
+import local.jordi.busapplication.shared.model.BusynessLevel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,19 @@ public class Bus
         }
 
         return pollFromItems().getBusStop();
+    }
+
+    public BusynessLevel getBusynessLevel()
+    {
+        if (passengers < (capacity / 2))
+        {
+            return BusynessLevel.LOW;
+        }
+        else if (passengers < ((capacity / 4) * 3))
+        {
+            return BusynessLevel.MEDIUM;
+        }
+        return BusynessLevel.HIGH;
     }
 
     public String getCompany() {
