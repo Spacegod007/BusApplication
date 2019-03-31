@@ -28,8 +28,8 @@ public class MainBrokerGateway implements IGateway, IGatewayLog {
         brokerMessageListeners = new EventContainer<>();
         brokerRegisterGateway = new BrokerRegisterGateway();
 
-        busGateway = new BusGateway(brokerRegisterGateway, this);
         companyGateway = new CompanyGateway(brokerRegisterGateway, this);
+        busGateway = new BusGateway(brokerRegisterGateway, this);
         busStopGateway = new BusStopGateway(brokerRegisterGateway, this);
 
         initEventListeners();

@@ -53,7 +53,6 @@ public class BusLogic {
         } else {
             busBrokerGateway.requestSchedule(bus.getNumber(), bus.getCompany());
         }
-
     }
 
     public void subscribeList(BusReplyScheduleReceivedEvent listener) {

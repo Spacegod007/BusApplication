@@ -13,8 +13,9 @@ public class Receiver {
     private Channel channel;
 
     public Receiver(String queueName, MessageReceivedEvent listener) {
-        this(queueName);
+        eventContainer = new EventContainer<>();
         subscribe(listener);
+        buildReceiver(queueName);
     }
 
     public Receiver(String queueName) {
