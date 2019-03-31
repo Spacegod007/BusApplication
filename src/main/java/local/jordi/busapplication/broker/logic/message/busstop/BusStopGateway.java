@@ -27,7 +27,6 @@ public class BusStopGateway {
 
     public void sendBusStopBusReachedStop(String busstop, BusStopBusReachedStop busStopBusReachedStop)
     {
-        System.out.println("next stop: " + busstop);
         if (busStopGatewayByBusStopName.containsKey(busstop))
         {
             BusStopSenderGateway busStopSenderGateway = busStopGatewayByBusStopName.get(busstop);
