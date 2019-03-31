@@ -51,4 +51,10 @@ public class CompanyBusReachedStop {
     public void setNextStop(String nextStop) {
         this.nextStop = nextStop;
     }
+
+    @Override
+    public String toString()
+    {
+        return busNumber + ", reached: " + reachedStop + ", next: " + nextStop;
+    }
 }

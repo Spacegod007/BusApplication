@@ -38,6 +38,9 @@ public class BusGateway {
         if (busGatewayByBusReference.containsKey(busReference))
         {
             BusSenderGateway busSenderGateway = busGatewayByBusReference.get(busReference);
+
+            gatewayLog.log("Sending BusReplySchedule, contents: " + busReplySchedule);
+
             busSenderGateway.sendReplySchedule(busReplySchedule);
         }
     }

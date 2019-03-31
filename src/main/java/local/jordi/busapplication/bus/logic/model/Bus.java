@@ -44,11 +44,17 @@ public class Bus
             removePassengers(passengersToRemove);
         }
 
-        int addPassengers = ThreadLocalRandom.current().nextInt(0, capacity);
+        int addPassengers = ThreadLocalRandom.current().nextInt(0, (capacity - passengers));
         if ((addPassengers + passengers) > capacity)
         {
             passengers = capacity;
         }
+        else
+        {
+            passengers += addPassengers;
+        }
+
+        System.out.println("current passagers: " + passengers);
 
         return pollFromItems().getBusStop();
     }

@@ -28,4 +28,9 @@ public class CompanyRequestSchedule implements Serializable
     public void setBusNumber(int busNumber) {
         this.busNumber = busNumber;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(busNumber);
+    }
 }

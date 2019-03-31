@@ -22,4 +22,9 @@ public class BusReplySchedule implements Serializable
     public void setBusSchedule(BusSchedule busSchedule) {
         this.busSchedule = busSchedule;
     }
+
+    @Override
+    public String toString() {
+        return "Schedule of " + busSchedule.getCompany() + " " + busSchedule.getBusNumber();
+    }
 }

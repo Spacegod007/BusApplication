@@ -3,8 +3,8 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="312.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="local.jordi.busapplication.broker.frame.BrokerFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="local.jordi.busapplication.broker.frame.BrokerFrameController">
    <children>
-      <ListView fx:id="lstvMessages" layoutX="14.0" layoutY="14.0" prefHeight="375.0" prefWidth="282.0" />
+      <ListView fx:id="lstvMessages" layoutX="14.0" layoutY="14.0" prefHeight="375.0" prefWidth="493.0" />
    </children>
 </AnchorPane>

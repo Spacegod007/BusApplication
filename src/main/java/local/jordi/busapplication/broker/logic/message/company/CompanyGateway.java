@@ -27,7 +27,11 @@ public class CompanyGateway {
     public void requestSchedule(String company, CompanyRequestSchedule companyRequestSchedule) {
         if (companyGatewaysByCompanyName.containsKey(company))
         {
-            companyGatewaysByCompanyName.get(company).requestSchedule(companyRequestSchedule);
+            CompanySenderGateway companySenderGateway = companyGatewaysByCompanyName.get(company);
+
+            gatewayLog.log("Sending CompanyRequestSchedule, contents: " + companyRequestSchedule);
+
+            companySenderGateway.requestSchedule(companyRequestSchedule);
         }
     }
 
@@ -47,6 +51,9 @@ public class CompanyGateway {
         if (companyGatewaysByCompanyName.containsKey(company))
         {
             CompanySenderGateway companySenderGateway = companyGatewaysByCompanyName.get(company);
+
+            gatewayLog.log("Sending CompanyBusReachedStop, contents: " + companyBusReachedStop);
+
             companySenderGateway.sendCompanyBusReachedStop(companyBusReachedStop);
         }
     }

@@ -47,6 +47,8 @@ public class MainBrokerGateway implements IGateway, IGatewayLog {
     }
 
     private void busReachedStopReceived(BusReachedStop busReachedStop) {
+        log("BusReachedStop received, contents: " + busReachedStop);
+
         CompanyBusReachedStop companyBusReachedStop = new CompanyBusReachedStop(busReachedStop.getBusNumber(), busReachedStop.getReachedStop(), busReachedStop.getNextStop());
         companyGateway.sendCompanyBusReachedStop(busReachedStop.getCompany(), companyBusReachedStop);
 
@@ -55,19 +57,18 @@ public class MainBrokerGateway implements IGateway, IGatewayLog {
     }
 
     private void busRequestScheduleReceived(BusRequestSchedule busRequestSchedule) {
-        String company = busRequestSchedule.getCompany();
-        CompanyRequestSchedule companyRequestSchedule = new CompanyRequestSchedule(busRequestSchedule.getBusNumber());
-
         log("BusRequestSchedule received, contents: " + busRequestSchedule);
 
+        String company = busRequestSchedule.getCompany();
+        CompanyRequestSchedule companyRequestSchedule = new CompanyRequestSchedule(busRequestSchedule.getBusNumber());
         companyGateway.requestSchedule(company, companyRequestSchedule);
     }
 
     private void companyReplyScheduleReceived(CompanyReplySchedule companyReplySchedule) {
+        log("CompanyReplySchedule received, contents: " + companyReplySchedule);
+
         BusReference busReference = new BusReference(companyReplySchedule.getBusNumber(), companyReplySchedule.getCompany());
         BusReplySchedule busReplySchedule = new BusReplySchedule(companyReplySchedule.getBusSchedule());
-
-        log("CompanyReplySchedule received, contents: " + companyReplySchedule);
 
         busGateway.sendBusReplySchedule(busReference, busReplySchedule);
 

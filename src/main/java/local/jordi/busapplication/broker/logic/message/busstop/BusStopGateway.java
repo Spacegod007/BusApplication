@@ -31,6 +31,9 @@ public class BusStopGateway {
         if (busStopGatewayByBusStopName.containsKey(busstop))
         {
             BusStopSenderGateway busStopSenderGateway = busStopGatewayByBusStopName.get(busstop);
+
+            gatewayLog.log("Sending BusStopBusReachedStop, conetens: " + busStopBusReachedStop);
+
             busStopSenderGateway.sendBusReachedStop(busStopBusReachedStop);
         }
     }

@@ -59,4 +59,9 @@ public class BusStopBusReachedStop {
     {
         return busynessLevel.toString();
     }
+
+    @Override
+    public String toString() {
+        return company + " " + busNumber + ", busyness: " + busynessLevel;
+    }
 }
