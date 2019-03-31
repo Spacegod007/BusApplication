@@ -17,10 +17,12 @@ public class MockBusSchedules {
         for (int i = 1; i < 10; i++)
         {
             busSchedules.add(new BusSchedule(i, companyname,
+                    new BusScheduleItem(StaticStrings.BUSSTATION, new Date()),
                     new BusScheduleItem(StaticStrings.BUSSTOP_A, new Date()),
                     new BusScheduleItem(StaticStrings.BUSSTOP_B, new Date()),
                     new BusScheduleItem(StaticStrings.BUSSTOP_C, new Date()),
-                    new BusScheduleItem(StaticStrings.BUSSTOP_D, new Date())
+                    new BusScheduleItem(StaticStrings.BUSSTOP_D, new Date()),
+                    new BusScheduleItem(StaticStrings.BUSSTATION, new Date())
             ));
         }
 

@@ -13,6 +13,8 @@ import local.jordi.busapplication.shared.messaging.model.busschedule.CompanyRequ
 import local.jordi.busapplication.shared.messaging.model.stopreached.BusReachedStop;
 import local.jordi.busapplication.shared.messaging.model.stopreached.BusStopBusReachedStop;
 import local.jordi.busapplication.shared.messaging.model.stopreached.CompanyBusReachedStop;
+import local.jordi.busapplication.shared.model.BusSchedule;
+import local.jordi.busapplication.shared.model.BusynessLevel;
 
 public class MainBrokerGateway implements IGateway, IGatewayLog {
     private EventContainer<BrokerMessageReceived, String> brokerMessageListeners;
@@ -68,6 +70,15 @@ public class MainBrokerGateway implements IGateway, IGatewayLog {
         log("CompanyReplySchedule received, contents: " + companyReplySchedule);
 
         busGateway.sendBusReplySchedule(busReference, busReplySchedule);
+
+        sendFirstBusStopMessage(busReplySchedule.getBusSchedule());
+    }
+
+    private void sendFirstBusStopMessage(BusSchedule busSchedule)
+    {
+        String busStop = busSchedule.getScheduleItems().get(0).getBusStop();
+        BusStopBusReachedStop busStopBusReachedStop = new BusStopBusReachedStop(busSchedule.getBusNumber(), busSchedule.getCompany(), BusynessLevel.LOW);
+        busStopGateway.sendBusStopBusReachedStop(busStop, busStopBusReachedStop);
     }
 
     @Override

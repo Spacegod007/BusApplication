@@ -10,10 +10,11 @@ public class StaticStrings {
     //</editor-fold>
 
     //<editor-fold desc="Bus stop names">
-    public static final String BUSSTOP_A = "BusStopA";
-    public static final String BUSSTOP_B = "BusStopB";
-    public static final String BUSSTOP_C = "BusStopC";
-    public static final String BUSSTOP_D = "BusStopD";
+    public static final String BUSSTATION = "Bus station";
+    public static final String BUSSTOP_A = "Bus stop A";
+    public static final String BUSSTOP_B = "Bus stop B";
+    public static final String BUSSTOP_C = "Bus stop C";
+    public static final String BUSSTOP_D = "Bus stop D";
     //</editor-fold>
 
     //</editor-fold>
