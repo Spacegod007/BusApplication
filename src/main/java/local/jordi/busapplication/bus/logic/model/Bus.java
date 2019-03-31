@@ -118,6 +118,6 @@ public class Bus
     }
 
     public String getNextStop() {
-        return scheduleItems.get(0).getBusStop();
+        return scheduleItems.size() != 0 ? scheduleItems.get(0).getBusStop() : "";
     }
 }

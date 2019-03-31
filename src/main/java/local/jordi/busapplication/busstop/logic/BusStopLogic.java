@@ -1,5 +1,6 @@
 package local.jordi.busapplication.busstop.logic;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import local.jordi.busapplication.busstop.logic.message.BusStopBrokerGateway;
@@ -29,7 +30,7 @@ public class BusStopLogic {
 
     private void busStopReachedReceived(BusStopBusReachedStop busStopBusReachedStop) {
         BusStopBusReference busStopBusReference = new BusStopBusReference(busStopBusReachedStop.getBusNumber(), busStopBusReachedStop.getCompany(), busStopBusReachedStop.getBusynessLevel());
-        buses.add(busStopBusReference);
+        Platform.runLater(() -> buses.add(busStopBusReference));
     }
 
     public ObservableList<BusStopBusReference> getBuses() {

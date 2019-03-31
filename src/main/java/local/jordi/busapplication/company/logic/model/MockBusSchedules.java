@@ -21,8 +21,7 @@ public class MockBusSchedules {
                     new BusScheduleItem(StaticStrings.BUSSTOP_A, new Date()),
                     new BusScheduleItem(StaticStrings.BUSSTOP_B, new Date()),
                     new BusScheduleItem(StaticStrings.BUSSTOP_C, new Date()),
-                    new BusScheduleItem(StaticStrings.BUSSTOP_D, new Date()),
-                    new BusScheduleItem(StaticStrings.BUSSTATION, new Date())
+                    new BusScheduleItem(StaticStrings.BUSSTOP_D, new Date())
             ));
         }
 

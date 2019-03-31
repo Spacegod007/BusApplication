@@ -47,7 +47,13 @@ public class BusLogic {
 
     public void stopReached() {
         String reachedStop = bus.busStopReached();
-        busBrokerGateway.busStopReached(bus.getNumber(), bus.getCompany(), reachedStop, bus.getNextStop(), bus.getBusynessLevel());
+        String nextStop = bus.getNextStop();
+        if (!nextStop.equals("")) {
+            busBrokerGateway.busStopReached(bus.getNumber(), bus.getCompany(), reachedStop, nextStop, bus.getBusynessLevel());
+        } else {
+            busBrokerGateway.requestSchedule(bus.getNumber(), bus.getCompany());
+        }
+
     }
 
     public void subscribeList(BusReplyScheduleReceivedEvent listener) {
