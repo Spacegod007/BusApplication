@@ -36,6 +36,7 @@ public class StaticStrings {
     //<editor-fold desc="Bus stop reached">
     public static final String BUSSTOP_REACHED_BROKER_QUEUE = "BusStopReachedBroker";
     public static final String BUSSTOP_REACHED_COMPANY_QUEUE = "BusStopReachedCompany";
+    public static final String BUSSTOP_REACHED_BUSSTOP_QUEUE = "BusStopReachedBusStop";
     //</editor-fold>
 
     //</editor-fold>

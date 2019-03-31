@@ -11,6 +11,7 @@ import local.jordi.busapplication.shared.messaging.model.busschedule.BusRequestS
 import local.jordi.busapplication.shared.messaging.model.busschedule.CompanyReplySchedule;
 import local.jordi.busapplication.shared.messaging.model.busschedule.CompanyRequestSchedule;
 import local.jordi.busapplication.shared.messaging.model.stopreached.BusReachedStop;
+import local.jordi.busapplication.shared.messaging.model.stopreached.BusStopBusReachedStop;
 import local.jordi.busapplication.shared.messaging.model.stopreached.CompanyBusReachedStop;
 
 public class MainBrokerGateway implements IGateway, IGatewayLog {
@@ -46,6 +47,9 @@ public class MainBrokerGateway implements IGateway, IGatewayLog {
     private void busReachedStopReceived(BusReachedStop busReachedStop) {
         CompanyBusReachedStop companyBusReachedStop = new CompanyBusReachedStop(busReachedStop.getBusNumber(), busReachedStop.getReachedStop(), busReachedStop.getNextStop());
         companyGateway.sendCompanyBusReachedStop(busReachedStop.getCompany(), companyBusReachedStop);
+
+        BusStopBusReachedStop busStopBusReachedStop = new BusStopBusReachedStop(busReachedStop.getBusNumber(), busReachedStop.getCompany(), busReachedStop.getBusynessLevel());
+        busStopGateway.sendBusStopBusReachedStop(busReachedStop.getNextStop(), busStopBusReachedStop);
     }
 
     private void busRequestScheduleReceived(BusRequestSchedule busRequestSchedule) {
